@@ -1,11 +1,11 @@
 import { IsInt, IsOptional, IsString } from 'class-validator';
 
-export class UpdateCompanyDto {
+export class UpdateBuildingDto {
   @IsOptional()
   @IsString()
   name?: string | null;
 
   @IsOptional()
   @IsInt()
-  created_by?: number | null;
+  company_id?: number | null;
 }
