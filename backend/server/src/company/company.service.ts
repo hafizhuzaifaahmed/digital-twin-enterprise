@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateCompanyDto } from './dto/create-company.dto.js';
-import { UpdateCompanyDto } from './dto/update-company.dto.js';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Injectable()
 export class CompanyService {
@@ -27,6 +27,73 @@ export class CompanyService {
     return company;
   }
 
+  async findAllWithRelations() {
+    return this.prisma.company.findMany({
+      include: {
+        user: true,
+        people: true,
+        building: {
+          include: {
+            floor: {
+              include: {
+                room: {
+                  include: { table: true },
+                },
+              },
+            },
+            Renamedfunction: {
+              include: {
+                job: {
+                  include: {
+                    job_level: true,
+                    job_skill: { include: { skill: true } },
+                    job_task: { include: { task: { include: { task_skill: { include: { skill: true } } } } } },
+                    people: true,
+                  },
+                },
+              },
+            },
+            process: {
+              include: {
+                process_task: { include: { task: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async findOneWithRelations(company_id: number) {
+    const company = await this.prisma.company.findUnique({
+      where: { company_id },
+      include: {
+        user: true,
+        people: true,
+        building: {
+          include: {
+            floor: { include: { room: { include: { table: true } } } },
+            Renamedfunction: {
+              include: {
+                job: {
+                  include: {
+                    job_level: true,
+                    job_skill: { include: { skill: true } },
+                    job_task: { include: { task: true } },
+                    people: true,
+                  },
+                },
+              },
+            },
+            process: { include: { process_task: { include: { task: true } } } },
+          },
+        },
+      },
+    });
+    if (!company) throw new NotFoundException(`Company ${company_id} not found`);
+    return company;
+  }
+
   async update(company_id: number, dto: UpdateCompanyDto) {
     const data: any = {
       name: dto.name ?? undefined,
@@ -39,3 +106,4 @@ export class CompanyService {
     return this.prisma.company.delete({ where: { company_id } });
   }
 }
+
