@@ -13,6 +13,7 @@ import { ProcessModule } from './process/process.module';
 import { TaskModule } from './task/task.module';
 import { PeopleModule } from './people/people.module';
 import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserModule } from './user/user.module';
     TaskModule,
     PeopleModule,
     UserModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
