@@ -11,10 +11,20 @@ import { RenamedfunctionModule } from './renamedfunction/renamedfunction.module'
 import { JobModule } from './job/job.module';
 import { ProcessModule } from './process/process.module';
 import { TaskModule } from './task/task.module';
-import { PeopleModule } from './people/people.module';
 
 @Module({
-  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule, RenamedfunctionModule, JobModule, ProcessModule, TaskModule, PeopleModule],
+  imports: [
+    PrismaModule,
+    CompanyModule,
+    BuildingModule,
+    FloorModule,
+    RoomModule,
+    TableModule,
+    RenamedfunctionModule,
+    JobModule,
+    ProcessModule,
+    TaskModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
