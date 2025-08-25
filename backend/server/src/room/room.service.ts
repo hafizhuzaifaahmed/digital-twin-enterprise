@@ -54,10 +54,20 @@ export class RoomService {
       cell_row: dto.cell_row ?? undefined,
       cell_column: dto.cell_column ?? undefined,
     };
-    return this.prisma.room.update({ where: { room_id }, data });
+    try {
+      return await this.prisma.room.update({ where: { room_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Room ${room_id} not found`);
+      throw e;
+    }
   }
 
   async remove(room_id: number) {
-    return this.prisma.room.delete({ where: { room_id } });
+    try {
+      return await this.prisma.room.delete({ where: { room_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Room ${room_id} not found`);
+      throw e;
+    }
   }
 }

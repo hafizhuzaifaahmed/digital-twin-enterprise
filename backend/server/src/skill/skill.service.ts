@@ -54,10 +54,20 @@ export class SkillService {
       description: dto.description ?? undefined,
       level: dto.level ?? undefined,
     };
-    return this.prisma.skill.update({ where: { skillid: skill_id }, data });
+    try {
+      return await this.prisma.skill.update({ where: { skillid: skill_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Skill ${skill_id} not found`);
+      throw e;
+    }
   }
 
   async remove(skill_id: number) {
-    return this.prisma.skill.delete({ where: { skillid: skill_id } });
+    try {
+      return await this.prisma.skill.delete({ where: { skillid: skill_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Skill ${skill_id} not found`);
+      throw e;
+    }
   }
 }

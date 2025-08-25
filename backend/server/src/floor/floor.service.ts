@@ -54,10 +54,20 @@ export class FloorService {
       rows: dto.rows ?? undefined,
       columns: dto.columns ?? undefined,
     };
-    return this.prisma.floor.update({ where: { floor_id }, data });
+    try {
+      return await this.prisma.floor.update({ where: { floor_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Floor ${floor_id} not found`);
+      throw e;
+    }
   }
 
   async remove(floor_id: number) {
-    return this.prisma.floor.delete({ where: { floor_id } });
+    try {
+      return await this.prisma.floor.delete({ where: { floor_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Floor ${floor_id} not found`);
+      throw e;
+    }
   }
 }
