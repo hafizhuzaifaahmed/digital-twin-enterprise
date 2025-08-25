@@ -10,9 +10,10 @@ import { TableModule } from './table/table.module';
 import { RenamedfunctionModule } from './renamedfunction/renamedfunction.module';
 import { JobModule } from './job/job.module';
 import { ProcessModule } from './process/process.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule, RenamedfunctionModule, JobModule, ProcessModule],
+  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule, RenamedfunctionModule, JobModule, ProcessModule, TaskModule],
   controllers: [AppController],
   providers: [AppService],
 })
