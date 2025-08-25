@@ -11,6 +11,8 @@ import { RenamedfunctionModule } from './renamedfunction/renamedfunction.module'
 import { JobModule } from './job/job.module';
 import { ProcessModule } from './process/process.module';
 import { TaskModule } from './task/task.module';
+import { PeopleModule } from './people/people.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { TaskModule } from './task/task.module';
     JobModule,
     ProcessModule,
     TaskModule,
+    PeopleModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
