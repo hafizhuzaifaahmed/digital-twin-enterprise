@@ -50,10 +50,20 @@ export class RoleService {
       name: dto.name ?? undefined,
       description: dto.description ?? undefined,
     };
-    return this.prisma.role.update({ where: { role_id }, data });
+    try {
+      return await this.prisma.role.update({ where: { role_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Role ${role_id} not found`);
+      throw e;
+    }
   }
 
   async remove(role_id: number) {
-    return this.prisma.role.delete({ where: { role_id } });
+    try {
+      return await this.prisma.role.delete({ where: { role_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Role ${role_id} not found`);
+      throw e;
+    }
   }
 }

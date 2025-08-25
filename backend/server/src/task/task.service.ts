@@ -76,11 +76,21 @@ export class TaskService {
       duration: dto.duration ?? undefined,
       minlevel: dto.minlevel ?? undefined,
     };
-    return this.prisma.task.update({ where: { task_id }, data });
+    try {
+      return await this.prisma.task.update({ where: { task_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Task ${task_id} not found`);
+      throw e;
+    }
   }
 
   async remove(task_id: number) {
-    return this.prisma.task.delete({ where: { task_id } });
+    try {
+      return await this.prisma.task.delete({ where: { task_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Task ${task_id} not found`);
+      throw e;
+    }
   }
 
   // Connect/Disconnect methods for skills

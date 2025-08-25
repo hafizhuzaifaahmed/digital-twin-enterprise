@@ -56,10 +56,20 @@ export class UserService {
       password: dto.password ?? undefined,
       role_id: dto.role_id ?? undefined,
     };
-    return this.prisma.user.update({ where: { user_id }, data });
+    try {
+      return await this.prisma.user.update({ where: { user_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`User ${user_id} not found`);
+      throw e;
+    }
   }
 
   async remove(user_id: number) {
-    return this.prisma.user.delete({ where: { user_id } });
+    try {
+      return await this.prisma.user.delete({ where: { user_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`User ${user_id} not found`);
+      throw e;
+    }
   }
 }

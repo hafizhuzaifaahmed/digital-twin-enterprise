@@ -72,11 +72,21 @@ export class ProcessService {
       description: dto.description ?? undefined,
       duration: dto.duration ?? undefined,
     };
-    return this.prisma.process.update({ where: { process_id }, data });
+    try {
+      return await this.prisma.process.update({ where: { process_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Process ${process_id} not found`);
+      throw e;
+    }
   }
 
   async remove(process_id: number) {
-    return this.prisma.process.delete({ where: { process_id } });
+    try {
+      return await this.prisma.process.delete({ where: { process_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Process ${process_id} not found`);
+      throw e;
+    }
   }
 
   // Connect/Disconnect methods for tasks

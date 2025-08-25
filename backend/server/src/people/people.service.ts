@@ -68,10 +68,20 @@ export class PeopleService {
       companyid: dto.companyid ?? undefined,
       jobid: dto.jobid ?? undefined,
     };
-    return this.prisma.people.update({ where: { peopleid }, data });
+    try {
+      return await this.prisma.people.update({ where: { peopleid }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`People ${peopleid} not found`);
+      throw e;
+    }
   }
 
   async remove(peopleid: number) {
-    return this.prisma.people.delete({ where: { peopleid } });
+    try {
+      return await this.prisma.people.delete({ where: { peopleid } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`People ${peopleid} not found`);
+      throw e;
+    }
   }
 }

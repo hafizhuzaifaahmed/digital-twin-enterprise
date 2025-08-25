@@ -76,11 +76,21 @@ export class JobService {
       name: dto.name ?? undefined,
       levelid: dto.levelid ?? undefined,
     };
-    return this.prisma.job.update({ where: { job_id }, data });
+    try {
+      return await this.prisma.job.update({ where: { job_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Job ${job_id} not found`);
+      throw e;
+    }
   }
 
   async remove(job_id: number) {
-    return this.prisma.job.delete({ where: { job_id } });
+    try {
+      return await this.prisma.job.delete({ where: { job_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Job ${job_id} not found`);
+      throw e;
+    }
   }
 
   // Connect/Disconnect methods for skills

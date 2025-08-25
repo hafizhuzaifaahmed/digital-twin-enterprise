@@ -99,11 +99,21 @@ export class CompanyService {
       name: dto.name ?? undefined,
       created_by: dto.created_by ?? undefined,
     };
-    return this.prisma.company.update({ where: { company_id }, data });
+    try {
+      return await this.prisma.company.update({ where: { company_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Company ${company_id} not found`);
+      throw e;
+    }
   }
 
   async remove(company_id: number) {
-    return this.prisma.company.delete({ where: { company_id } });
+    try {
+      return await this.prisma.company.delete({ where: { company_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Company ${company_id} not found`);
+      throw e;
+    }
   }
 }
 

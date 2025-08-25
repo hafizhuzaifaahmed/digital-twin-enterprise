@@ -66,10 +66,20 @@ export class RenamedfunctionService {
       building_id: dto.building_id ?? undefined,
       name: dto.name ?? undefined,
     };
-    return this.prisma.renamedfunction.update({ where: { function_id }, data });
+    try {
+      return await this.prisma.renamedfunction.update({ where: { function_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Function ${function_id} not found`);
+      throw e;
+    }
   }
 
   async remove(function_id: number) {
-    return this.prisma.renamedfunction.delete({ where: { function_id } });
+    try {
+      return await this.prisma.renamedfunction.delete({ where: { function_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Function ${function_id} not found`);
+      throw e;
+    }
   }
 }

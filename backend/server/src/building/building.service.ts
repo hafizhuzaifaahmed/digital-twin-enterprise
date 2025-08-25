@@ -74,10 +74,20 @@ export class BuildingService {
       name: dto.name ?? undefined,
       company_id: dto.company_id ?? undefined,
     };
-    return this.prisma.building.update({ where: { building_id }, data });
+    try {
+      return await this.prisma.building.update({ where: { building_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Building ${building_id} not found`);
+      throw e;
+    }
   }
 
   async remove(building_id: number) {
-    return this.prisma.building.delete({ where: { building_id } });
+    try {
+      return await this.prisma.building.delete({ where: { building_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Building ${building_id} not found`);
+      throw e;
+    }
   }
 }

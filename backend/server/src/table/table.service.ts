@@ -50,10 +50,20 @@ export class TableService {
       room_id: dto.room_id ?? undefined,
       posittion: dto.posittion ?? undefined,
     };
-    return this.prisma.table.update({ where: { table_id }, data });
+    try {
+      return await this.prisma.table.update({ where: { table_id }, data });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Table ${table_id} not found`);
+      throw e;
+    }
   }
 
   async remove(table_id: number) {
-    return this.prisma.table.delete({ where: { table_id } });
+    try {
+      return await this.prisma.table.delete({ where: { table_id } });
+    } catch (e: any) {
+      if (e?.code === 'P2025') throw new NotFoundException(`Table ${table_id} not found`);
+      throw e;
+    }
   }
 }
