@@ -14,6 +14,7 @@ import { TaskModule } from './task/task.module';
 import { PeopleModule } from './people/people.module';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
+import { SkillModule } from './skill/skill.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RoleModule } from './role/role.module';
     PeopleModule,
     UserModule,
     RoleModule,
+    SkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
