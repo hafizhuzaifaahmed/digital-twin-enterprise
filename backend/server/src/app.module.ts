@@ -13,7 +13,18 @@ import { ProcessModule } from './process/process.module';
 import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule, RenamedfunctionModule, JobModule, ProcessModule, TaskModule],
+  imports: [
+    PrismaModule,
+    CompanyModule,
+    BuildingModule,
+    FloorModule,
+    RoomModule,
+    TableModule,
+    RenamedfunctionModule,
+    JobModule,
+    ProcessModule,
+    TaskModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
