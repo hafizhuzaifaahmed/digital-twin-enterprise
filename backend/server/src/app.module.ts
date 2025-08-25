@@ -7,9 +7,10 @@ import { BuildingModule } from './building/building.module';
 import { FloorModule } from './floor/floor.module';
 import { RoomModule } from './room/room.module';
 import { TableModule } from './table/table.module';
+import { RenamedfunctionModule } from './renamedfunction/renamedfunction.module';
 
 @Module({
-  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule],
+  imports: [PrismaModule, CompanyModule, BuildingModule, FloorModule, RoomModule, TableModule, RenamedfunctionModule],
   controllers: [AppController],
   providers: [AppService],
 })
