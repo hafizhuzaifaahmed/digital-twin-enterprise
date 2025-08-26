@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { IsEmail, IsInt, IsOptional, IsString, MinLength } from 'class-validator';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Roles } from './roles.decorator';
@@ -6,14 +7,27 @@ import { RolesGuard } from './roles.guard';
 import { Public } from './public.decorator';
 
 class LoginDto {
+  @IsEmail()
   email: string;
+
+  @IsString()
+  @MinLength(6)
   password: string;
 }
 
 class RegisterDto {
+  @IsString()
   username: string;
+
+  @IsEmail()
   email: string;
+
+  @IsString()
+  @MinLength(6)
   password: string;
+
+  @IsOptional()
+  @IsInt()
   role_id: number;
 }
 
